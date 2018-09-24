@@ -1,3 +1,10 @@
+<?php
+include "post.php";
+$req = $bdd->query('SELECT * FROM billets');
+?>
+
+
+
 <!doctype html>
 
 <head>
@@ -15,48 +22,27 @@
 </head>
 
 <body>
-  <form method="post" action="commentaires.php" value="">
+<h1>Billets:</h1>
 
-    <h1>Mon super blog</h1>
-    <p>Dernier billets du blog</p>
-  </form>
-
-  <?php
-// Connected to data base
-try
-{
-	$bdd = new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', 'root');
-}
-catch(Exception $e)
-{
-        die('Erreur : '.$e->getMessage());
-}
-
-// On récupère les 5 derniers billets
-$req = $bdd->query('SELECT id, titre, contenu, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr FROM billets ORDER BY date_creation DESC LIMIT 0, 5');
-
-while ($donnees = $req->fetch())
-{
-?>
-<div class="news">
-    <h3>
-        <?php echo htmlspecialchars($donnees['titre']); ?>
-        <em>le <?php echo $donnees['date_creation_fr']; ?></em>
-    </h3>
-
-    <p>
-    <?php
-    // On affiche le contenu du billet
-    echo nl2br(htmlspecialchars($donnees['contenu']));
-    ?>
-    <br />
-    <em><a href="commentaires.php?billet=<?php echo $donnees['id']; ?>">Commentaires</a></em>
-    </p>
-</div>
 <?php
-} // Fin de la boucle des billets
-$req->closeCursor();
+// var_dump($req->fetch());
+
+while($donnees = $req->fetch())
+{
+
+
+   ?>
+
+   <h3><?php echo $donnees['titre'] ?></h3>
+   <p>contenu: <?php echo $donnees['contenu'] ."<br />"?></p>
+   <p>date:<?php echo $donnees['date_creation'] ."<br />"?> </p>
+   <a href="article.php?billet=<?php echo $donnees['id'] ?>">commentaires</a>
+
+   <?php
+
+}//the end of boucle while 
 ?>
+
 
 
 </body>
