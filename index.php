@@ -1,5 +1,5 @@
 <?php
-include "post.php";
+include "connect.php";
 $req = $bdd->query('SELECT * FROM billets');
 ?>
 
